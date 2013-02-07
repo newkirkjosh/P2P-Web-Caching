@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">P2PTestApp</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="webview_default_text">Enter a URL here</string>
+    <string name="icon_device_descrip">Android Capable Device</string>
+    <string name="choose_network">"Choose a network: "</string>
+    <string name="example_file">Example File</string>
+    <string name="content_desc_file">Cached file</string>
+    <string name="example_file_or_folder">Example File or Folder</string>
+
+</resources>
