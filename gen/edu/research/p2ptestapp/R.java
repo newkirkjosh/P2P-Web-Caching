@@ -82,12 +82,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int md__defaultBackground=0x7f040000;
     }
     public static final class drawable {
-        public static final int home=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int icons_screen=0x7f020002;
-        public static final int p2p_test_app_screen=0x7f020003;
-        public static final int phone=0x7f020004;
-        public static final int wifi=0x7f020005;
+        public static final int cloud=0x7f020000;
+        public static final int cloud_large=0x7f020001;
+        public static final int cloud_small=0x7f020002;
+        public static final int folder=0x7f020003;
+        public static final int home=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int icons_screen=0x7f020006;
+        public static final int p2p_test_app_screen=0x7f020007;
+        public static final int phone=0x7f020008;
+        public static final int share=0x7f020009;
+        public static final int wifi=0x7f02000a;
     }
     public static final class id {
         public static final int cached_item=0x7f050005;
