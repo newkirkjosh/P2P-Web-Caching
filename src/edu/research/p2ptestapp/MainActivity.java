@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import edu.research.p2ptestapp.fragments.NetworkFragment;
 import edu.research.p2ptestapp.fragments.WebFragment;
+import edu.research.p2ptestapp.receivers.P2PBroadcastReceiver;
 import edu.research.p2ptestapp.slideinmenu.MenuListView;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -67,6 +68,19 @@ public class MainActivity extends BaseDrawerActivity {
 		});
 
 		mMenuDrawer.setMenuView(mList);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mReceiver = new P2PBroadcastReceiver();
+		registerReceiver(mReceiver, mIntentFilter);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		unregisterReceiver(mReceiver);
 	}
 
 	private AdapterView.OnItemClickListener mItemClickListener = new AdapterView.OnItemClickListener() {
