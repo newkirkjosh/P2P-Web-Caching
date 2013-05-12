@@ -14,8 +14,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 import edu.research.p2ptestapp.R;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -32,17 +32,17 @@ public class WebFragment extends Fragment {
 		mWebView = (WebView) main.findViewById(R.id.main_webview);
 		mUrlBar = (EditText) main.findViewById(R.id.main_webview_text);
 		mWebView.getSettings().setJavaScriptEnabled(true);
-		
+
 		mWebView.loadUrl("http://www.google.com");
 		mUrlBar.setText("http://www.google.com");
-		
+
 		mWebView.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
 				getActivity().setProgress(newProgress * 1000);
 			}
 		});
-		
+
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onReceivedError(WebView view, int errorCode,

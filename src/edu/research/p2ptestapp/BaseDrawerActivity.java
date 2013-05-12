@@ -2,8 +2,8 @@ package edu.research.p2ptestapp;
 
 import java.util.List;
 
-import net.simonvt.widget.MenuDrawer;
-import net.simonvt.widget.MenuDrawerManager;
+import net.simonvt.menudrawer.MenuDrawer;
+import net.simonvt.menudrawer.Position;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,136 +12,141 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class BaseDrawerActivity extends BaseActivity{
+public class BaseDrawerActivity extends BaseActivity {
 
 	protected static final String STATE_MENUDRAWER = "net.simonvt.menudrawer.samples.ContentSample.menuDrawer";
-    protected static final String STATE_ACTIVE_POSITION = "net.simonvt.menudrawer.samples.ContentSample.activePosition";
-    protected static final String STATE_CONTENT_TEXT = "net.simonvt.menudrawer.samples.ContentSample.contentText";
-    protected static final String KEY_TITLE = "TITLE";
-    protected static final String KEY_ICON = "ICON";
-    protected static final String KEY_URL = "URL";
-    
-    protected MenuDrawerManager mMenuDrawer;
-    public List<Object> items;
-    protected int mActivePosition = -1;
-    protected String mContentText;
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-    	getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-    
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    	super.onRestoreInstanceState(savedInstanceState);
-    	mMenuDrawer.onRestoreDrawerState(savedInstanceState.getParcelable(STATE_MENUDRAWER));
-    }
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-    	super.onSaveInstanceState(outState);
-    	outState.putParcelable(STATE_MENUDRAWER, mMenuDrawer.onSaveDrawerState());
-    	outState.putInt(STATE_ACTIVE_POSITION, mActivePosition);
-    	outState.putString(STATE_CONTENT_TEXT, mContentText);
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	
-    	switch(item.getItemId()){
-    		case android.R.id.home:
-    			mMenuDrawer.toggleMenu();
-    			return true;
-    	}
-    	
-    	return super.onOptionsItemSelected(item);
-    }
-    
-    @Override
-    public void onBackPressed() {
-    	final int drawerState = mMenuDrawer.getDrawerState();
-        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
-            mMenuDrawer.closeMenu();
-            return;
-        }
-        
-    	super.onBackPressed();
-    }
-    
-    protected class Item {
-    	public String mTitle;
-    	public int mIconResId;
-    	
-    	public Item(String title, int iconResId){
-    		mTitle = title;
-    		mIconResId = iconResId;
-    	}
-    }
-    
-    protected class MenuAdapter extends BaseAdapter {
+	protected static final String STATE_ACTIVE_POSITION = "net.simonvt.menudrawer.samples.ContentSample.activePosition";
+	protected static final String STATE_CONTENT_TEXT = "net.simonvt.menudrawer.samples.ContentSample.contentText";
+	protected static final String KEY_TITLE = "TITLE";
+	protected static final String KEY_ICON = "ICON";
+	protected static final String KEY_URL = "URL";
 
-        public List<Object> mItems;
+	protected MenuDrawer mMenuDrawer;
+	public List<Object> items;
+	protected int mActivePosition = -1;
+	protected String mContentText;
 
-        public MenuAdapter(List<Object> items) {
-            mItems = items;
-        }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        @Override
-        public int getCount() {
-            return mItems.size();
-        }
+		mMenuDrawer = MenuDrawer.attach(this, Position.LEFT);
+		mMenuDrawer.setContentView(R.layout.fragment_layout);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 
-        @Override
-        public Object getItem(int position) {
-            return mItems.get(position);
-        }
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		mMenuDrawer.restoreState(savedInstanceState
+				.getParcelable(STATE_MENUDRAWER));
+	}
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putParcelable(STATE_MENUDRAWER, mMenuDrawer.saveState());
+		outState.putInt(STATE_ACTIVE_POSITION, mActivePosition);
+		outState.putString(STATE_CONTENT_TEXT, mContentText);
+	}
 
-        @Override
-        public int getItemViewType(int position) {
-            return getItem(position) instanceof Item ? 0 : 1;
-        }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
 
-        @Override
-        public int getViewTypeCount() {
-            return 2;
-        }
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			mMenuDrawer.toggleMenu();
+			return true;
+		}
 
-        @Override
-        public boolean isEnabled(int position) {
-            return getItem(position) instanceof Item;
-        }
+		return super.onOptionsItemSelected(item);
+	}
 
-        @Override
-        public boolean areAllItemsEnabled() {
-            return false;
-        }
+	@Override
+	public void onBackPressed() {
+		final int drawerState = mMenuDrawer.getDrawerState();
+		if (drawerState == MenuDrawer.STATE_OPEN
+				|| drawerState == MenuDrawer.STATE_OPENING) {
+			mMenuDrawer.closeMenu();
+			return;
+		}
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
+		super.onBackPressed();
+	}
 
-            if (v == null)
-                v = getLayoutInflater().inflate(R.layout.menu_row_item, parent, false);
+	protected class Item {
+		public String mTitle;
+		public int mIconResId;
 
-            TextView itemTitle = (TextView) v.findViewById(R.id.itemTitle);
-            ImageView icon = (ImageView) v.findViewById(R.id.icon);
-            itemTitle.setText(((Item) items.get(position)).mTitle);
-            icon.setImageResource(((Item)items.get(position)).mIconResId);
-            
+		public Item(String title, int iconResId) {
+			mTitle = title;
+			mIconResId = iconResId;
+		}
+	}
 
-            v.setTag(R.id.mdActiveViewPosition, position);
+	protected class MenuAdapter extends BaseAdapter {
 
-            if (position == mActivePosition) {
-                mMenuDrawer.setActiveView(v, position);
-            }
+		public List<Object> mItems;
 
-            return v;
-        }
-    }
+		public MenuAdapter(List<Object> items) {
+			mItems = items;
+		}
+
+		@Override
+		public int getCount() {
+			return mItems.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return mItems.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public int getItemViewType(int position) {
+			return getItem(position) instanceof Item ? 0 : 1;
+		}
+
+		@Override
+		public int getViewTypeCount() {
+			return 2;
+		}
+
+		@Override
+		public boolean isEnabled(int position) {
+			return getItem(position) instanceof Item;
+		}
+
+		@Override
+		public boolean areAllItemsEnabled() {
+			return false;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+
+			if (v == null)
+				v = getLayoutInflater().inflate(R.layout.menu_row_item, parent,
+						false);
+
+			TextView itemTitle = (TextView) v.findViewById(R.id.itemTitle);
+			ImageView icon = (ImageView) v.findViewById(R.id.icon);
+			itemTitle.setText(((Item) items.get(position)).mTitle);
+			icon.setImageResource(((Item) items.get(position)).mIconResId);
+
+			v.setTag(R.id.mdActiveViewPosition, position);
+
+			if (position == mActivePosition) {
+				mMenuDrawer.setActiveView(v, position);
+			}
+
+			return v;
+		}
+	}
 }

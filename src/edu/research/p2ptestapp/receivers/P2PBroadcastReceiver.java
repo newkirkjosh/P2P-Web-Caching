@@ -8,7 +8,7 @@ public class P2PBroadcastReceiver extends BroadcastReceiver{
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		String action = intent.getAction();
+		// String action = intent.getAction();
 	}
 
 }

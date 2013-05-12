@@ -37,51 +37,58 @@ public class NetworkFragment extends Fragment {
 			Bundle savedInstanceState) {
 
 		// Inflate the view to be replaced in the main fragment
-		View main = inflater.inflate(R.layout.fragment_networks, container, false);
-		
-		mWifiManager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
-		ListView listNetworks = (ListView) main.findViewById(R.id.list_networks);
+		View main = inflater.inflate(R.layout.fragment_networks, container,
+				false);
+
+		mWifiManager = (WifiManager) getActivity().getSystemService(
+				Context.WIFI_SERVICE);
+		ListView listNetworks = (ListView) main
+				.findViewById(R.id.list_networks);
 		ArrayAdapter<String> networkAdapter;
-		String[] nulls = {"No networks to be displayed"};
-		
+		String[] nulls = { "No networks to be displayed" };
+
 		// Get the list of available networks for the phone
 		List<ScanResult> networks = new ArrayList<ScanResult>();
-		
-		if( mWifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED ){
-			if( !mWifiManager.getScanResults().isEmpty() ){
+
+		if (mWifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
+			if (!mWifiManager.getScanResults().isEmpty()) {
 				mWifiManager.getScanResults().addAll(networks);
 				Log.d("networks", networks.toString());
 				List<String> networkNames = new ArrayList<String>();
-				
+
 				for (ScanResult s : networks) {
 					Log.d("ScanResult: ", s.toString());
 					networkNames.add(s.SSID);
 				}
-				
-				networkAdapter = new ArrayAdapter<String>(
-						getActivity(), R.layout.networks_item, R.id.radio_network,
+
+				networkAdapter = new ArrayAdapter<String>(getActivity(),
+						R.layout.networks_item, R.id.radio_network,
 						networkNames);
 				listNetworks.setAdapter(networkAdapter);
 				listNetworks.setOnItemClickListener(new OnItemClickListener() {
 
 					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						Toast.makeText(getActivity(), "Position " + position + " was selected.", Toast.LENGTH_SHORT).show();
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						Toast.makeText(getActivity(),
+								"Position " + position + " was selected.",
+								Toast.LENGTH_SHORT).show();
 					}
 				});
-			}else{
-				networkAdapter = new ArrayAdapter<String>(getActivity(), R.layout.networks_item, R.id.radio_network, nulls);
+			} else {
+				networkAdapter = new ArrayAdapter<String>(getActivity(),
+						R.layout.networks_item, R.id.radio_network, nulls);
 				listNetworks.setAdapter(networkAdapter);
 			}
 		}
-		
-		if( savedInstanceState != null ){
+
+		if (savedInstanceState != null) {
 			mCurCheckPosition = savedInstanceState.getInt("ourChoice", 0);
 		}
 
 		return main;
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);

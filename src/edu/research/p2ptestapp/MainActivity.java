@@ -2,8 +2,6 @@ package edu.research.p2ptestapp;
 
 import java.util.ArrayList;
 
-import net.simonvt.widget.MenuDrawer;
-import net.simonvt.widget.MenuDrawerManager;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -31,9 +29,6 @@ public class MainActivity extends BaseDrawerActivity {
 		if (getIntent().getStringExtra(TITLE) != null) {
 			getActionBar().setTitle(getIntent().getStringExtra(TITLE));
 		}
-
-		mMenuDrawer = new MenuDrawerManager(this, MenuDrawer.MENU_DRAG_CONTENT);
-		mMenuDrawer.setContentView(R.layout.fragment_layout);
 
 		// Adds the browser as the first fragment as we would like the user to
 		// start out in this screen
@@ -63,20 +58,20 @@ public class MainActivity extends BaseDrawerActivity {
 
 			@Override
 			public void onScrollChanged() {
-				mMenuDrawer.getMenuDrawer().invalidate();
+				mMenuDrawer.getMenuContainer().invalidate();
 			}
 		});
 
 		mMenuDrawer.setMenuView(mList);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mReceiver = new P2PBroadcastReceiver();
 		registerReceiver(mReceiver, mIntentFilter);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -110,7 +105,7 @@ public class MainActivity extends BaseDrawerActivity {
 			case 2:
 				// Show Cache
 				if (view != findViewById(R.layout.cloud_browser)) {
-					
+
 				}
 				break;
 			case 3:
